@@ -1,24 +1,49 @@
 import React, { Component } from 'react';
+import { createTiles } from "../../misc/utils"
 import OptionsPanel from '../OptionsPanel'
 import Board from '../Board'
 
 import './App.css';
 
 class App extends Component{
+   constructor(props) {
+      super(props);
 
-  render() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        Turbo-Matcher
-      </header>
-        <OptionsPanel />
-        <Board />
-      }
-    </div>
-  );
+      this.state = {
+         numTiles: 36,
+         playing: false,
+         previousTileIndex: null,
+         tiles: [],
+         toBeCleared: null
+      };
+   }
 
-  }
+   render() {
+      return (
+         <div className="App">
+            <header className="App-header">
+            Turbo-Matcher
+            </header>
+               <OptionsPanel 
+                  playing = { this.state.playing }
+                  numTiles = { this.state.numTiles }
+                  startGame = { this.startGame } />
+               <Board 
+                  numTiles = { this.state.numTiles }
+                  tiles = { this.state.tiles } />
+         </div>
+      );
+
+   }
+
+   startGame() {
+      this.setState((state) => ({
+         playing: true,
+         previousTileIndex: null,
+         toBeCleared: null,
+         tiles: createTiles(state.numTiles)
+      }))
+   }
 }
 
 export default App;
